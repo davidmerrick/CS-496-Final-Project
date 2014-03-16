@@ -60,7 +60,7 @@ public class EmailNew extends HttpServlet {
 
 	        try {
 	            Message msg = new MimeMessage(session);
-	            msg.setFrom(new InternetAddress("no-reply@socialcollage.com", "SocialCollage"));
+	            msg.setFrom(new InternetAddress("dmerricka@gmail.com", "David Merrick"));
 	            msg.addRecipient(Message.RecipientType.TO,
 	                             new InternetAddress("david@david-merrick.com", "David Merrick"));
 	            msg.setSubject("Recent Collages Uploaded to SocialCollage");

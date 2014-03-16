@@ -3,6 +3,6 @@
 	<cron>
 		<url>/cron/emailnew</url>
 		<description>Send an email if there are new items uploaded</description>
-		<schedule>every 30 minutes</schedule>
+		<schedule>every day 12:00</schedule>
 	</cron>
 </cronentries>
