@@ -26,11 +26,9 @@ try {
 	String photoName = (String)data.get("photo");
 	
 	if(caption == null) caption = "";
-	if(email == null) caption = "";
+	if(email == null) email = "";
 	if(photo == null) photo = new byte[0];
 	if(photoName == null) photoName = "";
-
-	String errorMessage = null;
 
 	if(photo.length > 0) {
 		Item item = new Item();
@@ -40,11 +38,6 @@ try {
 		item.setTimestamp();
 		pm.makePersistent(item);
 		caption = "";
-	} else {
-		//errorMessage = "Photo is empty";
-	}
-	if(errorMessage != null){
-		out.write("Error: " + errorMessage);
 	}
 } finally {
 	pm.close();

@@ -50,7 +50,7 @@ public class EmailNew extends HttpServlet {
 				long diffMinutes = diff / (60 * 1000) % 60;
 				if(diffMinutes <= 30){
 					//@todo: remove hardcoding of server name
-					msgBody = msgBody + "\n" + "http://2-dot-ermagherdkittygallery.appspot.com/viewimage.jsp?item=" + item.getID().toString();
+					msgBody = msgBody + "\n" + "http://social-collage.appspot.com/viewimage.jsp?item=" + item.getID().toString();
 				} 
 				String email = item.getEmail();
 				if(email != null && email != ""){
