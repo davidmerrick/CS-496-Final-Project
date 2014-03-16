@@ -54,7 +54,10 @@ public class EmailNew extends HttpServlet {
 				} 
 				String email = item.getEmail();
 				if(email != null && email != ""){
-					sendArray.add(email);
+					//Don't add duplicates to the list
+					if(!sendArray.contains(email)){
+						sendArray.add(email);
+					}
 				}
 			}
 						
@@ -63,18 +66,29 @@ public class EmailNew extends HttpServlet {
 	        Session session = Session.getDefaultInstance(props, null);
 
 	        try {
-	            Message msg = new MimeMessage(session);
-	            msg.setFrom(new InternetAddress("dmerricka@gmail.com", "David Merrick"));
-	            
-	            //Loop through the sendArray and add every address as recepients
-	            for(String email_address : sendArray){
-	            	msg.addRecipient(Message.RecipientType.TO,
-	                             new InternetAddress(email_address, "SocialCollage User"));
-	            }
-	            msg.setSubject("Recent Collages Uploaded to SocialCollage");
-	            msg.setText(msgBody);
-	            Transport.send(msg);
-	            resp.getWriter().println("Sent out e-mail(s)");
+	        	int numRecipients = sendArray.size(); 
+	        	if(numRecipients > 0){
+		        	Message msg = new MimeMessage(session);
+		            msg.setFrom(new InternetAddress("dmerricka@gmail.com", "David Merrick"));
+		            
+		            //Loop through the sendArray and add every address as recepients
+		            for(String email_address : sendArray){
+		            	msg.addRecipient(Message.RecipientType.TO,
+		                             new InternetAddress(email_address, "SocialCollage User"));
+		            }
+		            msg.setSubject("Recent Collages Uploaded to SocialCollage");
+		            msg.setText(msgBody);
+		            Transport.send(msg);
+		            
+		            
+		            if(numRecipients > 1){
+		            	resp.getWriter().println("Sent out e-mails to " + numRecipients + " recipients");
+		            } else {
+		            	resp.getWriter().println("Sent out an e-mail to 1 recipient");
+		            }
+	        	} else {
+	        		resp.getWriter().println("No e-mail addresses to send to.");
+	        	}
 	        } catch (AddressException e) {
 	        	resp.getWriter().println("AddressException e");
 	        } catch (MessagingException e) {
