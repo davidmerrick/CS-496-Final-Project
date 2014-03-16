@@ -1,8 +1,11 @@
 package edu.oregonstate.mobilecloud;
 
 import edu.oregonstate.mobilecloud.Item;
+
 import java.io.IOException;
+
 import javax.servlet.http.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +15,11 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.Query;
+
 import org.json.simple.*;
+
 import java.util.*;
 
-//Import stuff for sending e-mail
-import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -31,7 +34,10 @@ public class EmailNew extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		PersistenceManager pm = PMF.getPMF().getPersistenceManager();
 		try {
-			/*
+			String msgBody = "Recent Collages:"; //Message body for the email 
+			List<String> sendArray = new ArrayList<String>(); //Array of email addresses to send message to
+			
+			//Build a list of email addresses to send to AND new collages (in the last 30 min)
 			resp.setContentType("text/plain");
 			Query query = pm.newQuery(Item.class);
 			query.setOrdering("timestamp asc");
@@ -39,33 +45,36 @@ public class EmailNew extends HttpServlet {
 			JSONArray array = new JSONArray();
 			for(Item item : items){
 				Date timestamp = item.getTimestamp();
-				resp.getWriter().println("Timpstamp is " + timestamp);
 				Date now = new Date();
 				long diff = now.getTime() - timestamp.getTime();
 				long diffMinutes = diff / (60 * 1000) % 60;
-				resp.getWriter().println("diffMinutes is " + diffMinutes);
 				if(diffMinutes <= 30){
-					resp.getWriter().println("Found a new image! E-mailing it now");
-				} else {
-					break;
+					//@todo: remove hardcoding of server name
+					msgBody = msgBody + "\n" + "http://2-dot-ermagherdkittygallery.appspot.com/viewimage.jsp?item=" + item.getID().toString();
+				} 
+				String email = item.getEmail();
+				if(email != null && email != ""){
+					sendArray.add(email);
 				}
 			}
-			*/
+						
 			//Send the e-mail
-			resp.getWriter().println("Sending an e-mail");
 			Properties props = new Properties();
 	        Session session = Session.getDefaultInstance(props, null);
-
-	        String msgBody = "Testing";
 
 	        try {
 	            Message msg = new MimeMessage(session);
 	            msg.setFrom(new InternetAddress("dmerricka@gmail.com", "David Merrick"));
-	            msg.addRecipient(Message.RecipientType.TO,
-	                             new InternetAddress("david@david-merrick.com", "David Merrick"));
+	            
+	            //Loop through the sendArray and add every address as recepients
+	            for(String email_address : sendArray){
+	            	msg.addRecipient(Message.RecipientType.TO,
+	                             new InternetAddress(email_address, "SocialCollage User"));
+	            }
 	            msg.setSubject("Recent Collages Uploaded to SocialCollage");
 	            msg.setText(msgBody);
 	            Transport.send(msg);
+	            resp.getWriter().println("Sent out e-mail(s)");
 	        } catch (AddressException e) {
 	        	resp.getWriter().println("AddressException e");
 	        } catch (MessagingException e) {

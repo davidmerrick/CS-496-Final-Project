@@ -9,7 +9,8 @@
  		Collage<br />
  		<input name="photo" type="file"><br />
  		Your name<input type="text" name="caption"><br />
- 		<input type="submit" value="Submit Kitty!">
+ 		Your e-mail (optional, for receiving daily e-mails of new collages submitted by other users)<input type="text" name="email"><br />
+ 		<input type="submit" value="Submit Collage">
  	</form>
  	<br />
 <%@ page import="java.util.*" %>
@@ -20,10 +21,12 @@ PersistenceManager pm = PMF.getPMF().getPersistenceManager();
 try {
 	Map<String, Object> data = Util.read(request);
 	String caption = (String)data.get("caption");
+	String email = (String)data.get("email");
 	byte[] photo = (byte[])data.get("photo[]");
 	String photoName = (String)data.get("photo");
 	
 	if(caption == null) caption = "";
+	if(email == null) caption = "";
 	if(photo == null) photo = new byte[0];
 	if(photoName == null) photoName = "";
 
@@ -33,6 +36,7 @@ try {
 		Item item = new Item();
 		item.setPhoto(photo);
 		item.setCaption(caption);
+		item.setEmail(email);
 		item.setTimestamp();
 		pm.makePersistent(item);
 		caption = "";

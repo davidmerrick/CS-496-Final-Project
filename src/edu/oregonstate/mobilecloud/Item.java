@@ -26,6 +26,9 @@ public class Item {
 	private String caption;
 	
 	@Persistent
+	private String email;
+	
+	@Persistent
 	private Date timestamp;
 	
 	public Long getID(){
@@ -46,6 +49,14 @@ public class Item {
 	
 	public void setCaption(String caption){
 		this.caption = caption;
+	}
+
+	public String getEmail(){
+		return email;
+	}
+	
+	public void setEmail(String email){
+		this.email = email;
 	}
 	
 	public void setTimestamp(){
