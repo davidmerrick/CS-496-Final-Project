@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Kitty Photo Uploader</title>
+    <title>Collage Uploader</title>
     <!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8">-->
   </head>
   <body>
  	<form action="uploader.jsp" enctype="multipart/form-data" method="post">
- 		Kitty photo<br />
+ 		Collage<br />
  		<input name="photo" type="file"><br />
- 		Caption<input type="text" name="caption"><br />
+ 		Your name<input type="text" name="caption"><br />
  		<input type="submit" value="Submit Kitty!">
  	</form>
  	<br />
@@ -47,6 +47,6 @@ try {
 }
 %>
 	<br />
-	<a href="gallery.jsp">Kitty Gallery</a>
+	<a href="gallery.jsp">Collage Gallery</a>
 	</body>
 </html>

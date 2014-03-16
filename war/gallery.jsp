@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html>
 	<head>
-		<title>Kitty Gallery</title>
+		<title>Collage Gallery</title>
 		<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8">-->
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -10,7 +10,7 @@
 	<body>
 		<div data-role="page">
 			<div data-role="header">
-				<h1>Kitty Gallery</h1>
+				<h1>Collage Gallery</h1>
 			</div>
 			<div data-role="content" class="photolist">
 				<ul id="allitems" data-role="listview" data-inset="true">
